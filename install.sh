@@ -1,13 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
-echo "[*] Установка необходимых пакетов"
-apt install sudo -y
-apt update && apt full-upgrade -y
-apt install curl ufw fail2ban -y
+echo "[*] Installing packages"
+apt update
+apt install -y sudo curl ufw fail2ban
 
-echo "[*] Настройка UFW"
+echo "[*] Full upgrade"
+apt full-upgrade -y
+
+echo "[*] Configuring UFW"
 ufw --force reset
 ufw default deny incoming
 ufw default allow outgoing
@@ -16,9 +18,9 @@ ufw allow 80/tcp
 ufw allow 443/tcp
 ufw --force enable
 
-echo "[*] Настройка Fail2Ban"
+echo "[*] Configuring Fail2Ban"
 
-cat > /etc/fail2ban/jail.local << 'EOF'
+cat > /etc/fail2ban/jail.local <<EOF
 [DEFAULT]
 backend = systemd
 bantime = 60d
@@ -34,10 +36,9 @@ EOF
 
 systemctl restart fail2ban
 
-echo "[*] Статус Fail2Ban (sshd)"
 fail2ban-client status sshd || true
 
-echo "[*] Установка Auto_IPtables"
-curl -fsSL "https://raw.githubusercontent.com/Loorrr293/Auto_IPtables/main/install.sh" | bash
+echo "[*] Installing Auto_IPtables"
+curl -fsSL https://raw.githubusercontent.com/Loorrr293/Auto_IPtables/main/install.sh | bash
 
-echo "[✔] Готово"
+echo "[✔] DONE"
