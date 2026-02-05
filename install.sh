@@ -35,6 +35,7 @@ EOF
 
 # Перезапуск fail2ban и вывод статуса
 sudo systemctl restart fail2ban
+sleep 10
 sudo fail2ban-client status sshd
 
 # Запуск внешнего скрипта Auto_IPtables
