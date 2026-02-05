@@ -14,7 +14,7 @@ sudo ufw default allow outgoing
 sudo ufw allow 22/tcp
 sudo ufw allow 443/tcp
 sudo ufw allow 80/tcp
-
+sleep 3
 # Включение UFW (с подтверждением 'y' для неинтерактивного режима)
 echo "y" | sudo ufw enable
 
